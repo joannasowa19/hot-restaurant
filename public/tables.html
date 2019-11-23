@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="//code.jquery.com/jquery.js"></script>
+    <title>Tables</title>
+  </head>
+  <body>
+    <h1>Current Reservations</h1>
+    <div class="js-rsvp">This line will get replaced with my table data.</div>
+
+    <h1>On Hold</h1>
+    <div class="js-waitlist">
+      This line will get replaced with my waitlisted data.
+    </div>
+
+    <script>
+      $.get("/api/rsvp").then(rsvp => {
+        // get raw data //
+        console.log(rsvp);
+
+        // parse means check for bad data //
+        let allTablesDiv = "";
+        rsvp.forEach(reservation => {
+          let tableDiv = `
+          <div style="margin-top: 24px;">${reservation.customerName}</div>
+          <div>${reservation.customerEmail}</div>
+          <div>${reservation.customerID}</div>
+          <div>${reservation.phoneNumber}</div>
+          `;
+          allTablesDiv += tableDiv;
+        });
+        // render it to html //
+        $(".js-rsvp").html(allTablesDiv);
+      });
+      $.get("/api/waitlist").then(waitlist => {
+        // get raw data //
+        console.log(waitlist);
+
+        // parse data //
+        let allTablesDiv = "";
+        waitlist.forEach(reservation => {
+          let tableDiv = `
+          <div style="margin-top: 24px;">${reservation.customerName}</div>
+          <div>${reservation.customerEmail}</div>
+          <div>${reservation.customerID}</div>
+          <div>${reservation.phoneNumber}</div>
+          `;
+          allTablesDiv += tableDiv;
+        });
+        // render it to html //
+        $(".js-waitlist").html(allTablesDiv);
+      });
+    </script>
+  </body>
+</html>

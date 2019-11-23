@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="//code.jquery.com/jquery.js"></script>
+    <title>Add a reserveration</title>
+  </head>
+  <body>
+    <h1>Do you want to play a game?</h1>
+    <div>Name: <input type="text" id="customerName" /></div>
+    <div>Email: <input type="text" id="customerEmail" /></div>
+    <div>ID: <input type="text" id="customerID" /></div>
+    <div>Number: <input type="text" id="phoneNumber" /></div>
+    <button style="margin-top: 24px;" class="js-submit">
+      Send Reservation
+    </button>
+
+    <script>
+      // events //
+      $(".js-submit").on("click", event => {
+        // get form data make it an object //
+        const newReservation = {
+          customerName: $("#customerName")
+            .val()
+            .trim(),
+          customerEmail: $("#customerEmail")
+            .val()
+            .trim(),
+          customerID: $("#customerID")
+            .val()
+            .trim(),
+          phoneNumber: $("#phoneNumber")
+            .val()
+            .trim()
+        };
+        // get data from the form //
+        $.post("/api/tables", newReservation, data => {
+          console.log(data);
+          if (data) {
+            alert("congrats you made the list");
+          } else {
+            alert("please wait for a table");
+          }
+        });
+        // send the data to the server //
+      });
+    </script>
+  </body>
+</html>
